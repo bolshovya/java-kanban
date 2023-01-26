@@ -54,53 +54,5 @@ public class Main {
         taskManager.printListOfAllSubtasks(taskManager.listOfAllSubtask());
         System.out.println();
 
-
-        /*
-        System.out.println("СОЗДАЮТСЯ НОВЫЕ ЗАДАЧИ");
-        taskManager.listAllTask();
-        System.out.println();
-        epicManager.listAllEpic();
-        System.out.println();
-        epicManager.listAllSubtask();
-        System.out.println("ПЕРВЫЙ АПДЕЙТ СТАТУСОВ");
-        System.out.println();
-        epicManager.updateSubtaskStatus(subtask11);
-        epicManager.updateTaskStatus(task1);
-        epicManager.updateSubtaskStatus(subtask12);
-        taskManager.listAllTask();
-        System.out.println();
-        epicManager.listAllSubtask();
-        System.out.println();
-        epicManager.listAllEpic();
-        System.out.println("ВТОРОЙ АПДЕЙТ СТАТУСОВ: ");
-        System.out.println();
-        epicManager.updateSubtaskStatus(subtask11);
-        epicManager.updateTaskStatus(task1);
-        epicManager.updateSubtaskStatus(subtask21);
-        taskManager.listAllTask();
-        System.out.println();
-        epicManager.listAllSubtask();
-        System.out.println();
-        epicManager.listAllEpic();
-        System.out.println("ТРЕТИЙ АПДЕЙТ СТАТУСОВ: ");
-        epicManager.updateSubtaskStatus(subtask11);
-        epicManager.updateSubtaskStatus(subtask12);
-        epicManager.updateSubtaskStatus(subtask21);
-        taskManager.listAllTask();
-        System.out.println();
-        epicManager.listAllSubtask();
-        System.out.println();
-        epicManager.listAllEpic();
-        System.out.println("УДАЛЕНИЕ");
-        taskManager.removeTask(1675990516);
-        epicManager.removeEpic(79775152);
-        taskManager.listAllTask();
-        System.out.println();
-        epicManager.listAllSubtask();
-        System.out.println();
-        epicManager.listAllEpic();
-        */
-
-
     }
 }
