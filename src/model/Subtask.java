@@ -21,4 +21,11 @@ public class Subtask extends Task {
         return epicTag.getId();
     }
 
+    @Override
+    public void setStatus(String newStatus) {
+        this.status = newStatus;
+        Epic epic = this.epicTag;
+        epic.updateEpicStatus();
+    }
+
 }

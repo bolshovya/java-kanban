@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Epic extends Task {
-    static ArrayList <Subtask> subtaskInEpic = new ArrayList<>();
+    private ArrayList <Subtask> subtaskInEpic = new ArrayList<>();
 
     public Epic(String name, String discription) {
         super(name, discription);
@@ -27,7 +27,6 @@ public class Epic extends Task {
         }
         return result+Arrays.toString(subtaskStorage);
     }
-
 
     public void updateEpicStatus() {
         int countNew = 0;

@@ -31,28 +31,6 @@ public class Main {
         Subtask subtask21 = new Subtask("Просмотреть все ролики из плей-листа", "Ютуб", epic2);
         taskManager.addSubtask(subtask21);
 
-        System.out.println("Список задач:");
-        taskManager.printListOfAllTasks(taskManager.listOfAllTask());
-        System.out.println();
-        System.out.println("Список эпиков:");
-        taskManager.printListOfAllEpics(taskManager.listOfAllEpic());
-        System.out.println();
-        System.out.println("Список подзадач:");
-        taskManager.printListOfAllSubtasks(taskManager.listOfAllSubtask());
-        System.out.println();
-        System.out.println("Первый апгрейд статусов!");
-        subtask11.setStatus("IN_PROGRESS");
-        subtask21.setStatus("IN_PROGRESS");
-        taskManager.updateEpicStatusMax();
-        System.out.println("Список задач:");
-        taskManager.printListOfAllTasks(taskManager.listOfAllTask());
-        System.out.println();
-        System.out.println("Список эпиков:");
-        taskManager.printListOfAllEpics(taskManager.listOfAllEpic());
-        System.out.println();
-        System.out.println("Список подзадач:");
-        taskManager.printListOfAllSubtasks(taskManager.listOfAllSubtask());
-        System.out.println();
 
     }
 }
