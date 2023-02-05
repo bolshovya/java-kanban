@@ -1,137 +1,70 @@
 package controllers;
 
-import model.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+
 import java.util.List;
-import java.util.Map;
 
-public class TaskManager {
-    private Map<Integer, Task> taskStorage = new HashMap<>();
-    private Map<Integer, Epic> epicStorage = new HashMap<>();
-    private Map <Integer, Subtask> subtaskStorage = new HashMap<>();
+public interface TaskManager {
+
+    List<Task> listOfAllTask();
 
 
-    public List<Task> listOfAllTask() { // 2.1 Получение списка всех задач.
-        List<Task> taskList = new ArrayList<>();
-        for (Task task : taskStorage.values()) {
-            taskList.add(task);
-        }
-        return (List<Task>) taskList;
-    }
+    List<Epic> listOfAllEpic();
 
-    public List<Epic> listOfAllEpic() { // 2.1 Получение списка всех эпик-задач.
-        List<Epic> epicList = new ArrayList<>();
-        for (Epic epic : epicStorage.values()) {
-            epicList.add(epic);
-        }
-        return (List<Epic>) epicList;
-    }
 
-    public List<Subtask> listOfAllSubtask() { // 2.1 Получение списка всех подзадач.
-        List<Subtask> subtaskList = new ArrayList<>();
-        for (Subtask subtask : subtaskStorage.values()) {
-            subtaskList.add(subtask);
-        }
-        return (List<Subtask>) subtaskList;
-    }
+    List<Subtask> listOfAllSubtask();
 
-    public void clearTaskList() { // 2.2 Удаление всех задач.
-        taskStorage.clear();
-    }
 
-    public void clearEpicList() { // 2.2 Удаление всех эпик-задач.
-        epicStorage.clear();
-        subtaskStorage.clear();
-    }
+    void clearTaskList();
 
-    public void clearSubtaskList() { // 2.2 Удаление всех подзадач.
-        subtaskStorage.clear();
-    }
 
-    public Task getTaskById(Integer id) { // 2.3 Получение по идентификатору
-        Task returnedTask = taskStorage.get(id);
-        return returnedTask;
-    }
+    void clearEpicList();
 
-    public Epic getEpicById(Integer id) { // 2.3 Получение эпик-задачи по идентификатору
-        Epic returnedEpic = epicStorage.get(id);
-        return returnedEpic;
-    }
 
-    public Subtask getSubtaskById(Integer id) { // 2.3 Получение подзадачи по идентификатору
-        Subtask returnedSubtask = subtaskStorage.get(id);
-        return returnedSubtask;
-    }
+    void clearSubtaskList();
 
-    public void addTask(Task newTask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
-        taskStorage.put(newTask.getId(), newTask);
-    }
 
-    public void addEpic(Epic newEpic) { // 2.4 Создание эпик-задачи. Сам объект должен передаваться в качестве параметра.
-        epicStorage.put(newEpic.getId(), newEpic);
-    }
+    Task getTaskById(Integer id);
 
-    public void addSubtask(Subtask newSubtask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
-        subtaskStorage.put(newSubtask.getId(), newSubtask);
-        Integer epicId = newSubtask.getEpicId();
-        Epic epicBuffer = epicStorage.get(epicId);
-        epicBuffer.setSubtaskIncludedInTheEpic(newSubtask);
-        epicBuffer.updateEpicStatus();
-        epicStorage.put(epicBuffer.getId(), epicBuffer);
-    }
 
-    public void updateTask(Integer idTask, Task newTask) { // 2.5 Обновление.
-        taskStorage.put(idTask, newTask);
-    }
+    Epic getEpicById(Integer id);
 
-    public void updateEpic(Integer idTask, Epic newEpic) { // 2.5 Обновление эпик-задачи.
-        epicStorage.put(idTask, newEpic);
-    }
 
-    public void updateSubtask(Integer idSubtask, Subtask newSubtask) { // 2.5 Обновление подзадачи.
-        subtaskStorage.put(idSubtask, newSubtask);
-        Integer epicId = newSubtask.getEpicId();
-        Epic epicBuffer = epicStorage.get(epicId);
-        epicBuffer.updateEpicStatus();
-        epicStorage.put(epicId, epicBuffer);
-    }
+    Subtask getSubtaskById(Integer id);
 
-    public void removeTask(Integer id) { // 2.6 Удаление задачи по идентификатору
-        taskStorage.remove(id);
-    }
 
-    public void removeEpic(Integer id) { // 2.6 Удаление эпика по идентификатору
-        epicStorage.remove(id);
-        ArrayList<Integer> keys = new ArrayList<>();
-        for (Subtask subtask : subtaskStorage.values()) {
-            if ((subtask.getEpicId()).equals(id)) {
-                keys.add(subtask.getId());
-            }
-        }
-        for (Integer key : keys) {
-            subtaskStorage.remove(key);
-        }
-    }
+    void addTask(Task newTask);
 
-    public void removeSubtask(Integer id) { // 2.6 Удаление подзадачи по идентификатору
-        Subtask subtask = subtaskStorage.get(id);
-        Integer epicId = subtask.getEpicId();
-        Epic epicBuffer = epicStorage.get(epicId);
-        subtaskStorage.remove(id);
-        epicBuffer.updateEpicStatus();
-    }
 
-    public void getListOfAllSubtaskEpic(Epic epic) { // 3.1 Получение списка всех подзадач определенённого эпика
-        ArrayList<Subtask> epicIdInSubtask = new ArrayList<>();
-        for (Subtask subtask : subtaskStorage.values()) {
-            if ((subtask.getSubtaskIncludedInEpic()).equals(epic)) {
-                epicIdInSubtask.add(subtask);
-            }
-        }
-        for (Subtask subtask : epicIdInSubtask) {
-            System.out.println(subtask);
-        }
-    }
+    void addEpic(Epic newEpic);
+
+
+    void addSubtask(Subtask newSubtask);
+
+
+    void updateTask(Integer idTask, Task newTask);
+
+
+    void updateEpic(Integer idTask, Epic newEpic);
+
+
+    void updateSubtask(Integer idSubtask, Subtask newSubtask);
+
+
+    void removeTask(Integer id);
+
+
+    void removeEpic(Integer id);
+
+
+    void removeSubtask(Integer id);
+
+
+    void getListOfAllSubtaskEpic(Epic epic);
+
+
+    List<Task> getHistory();
 
 }

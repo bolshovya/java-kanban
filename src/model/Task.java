@@ -3,14 +3,14 @@ package model;
 public class Task {
     protected String name;
     protected String description;
-    protected String status;
+    protected TaskStatus status;
     protected int id;
 
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
         this.id = createId();
-        this.status = "NEW";
+        this.status = TaskStatus.NEW;
     }
 
     @Override
@@ -39,11 +39,11 @@ public class Task {
         return this.id;
     }
 
-    public String getStatus() {
+    public TaskStatus getStatus() {
         return this.status;
     }
 
-    public void setStatus(String newStatus) {
+    public void setStatus(TaskStatus newStatus) {
         this.status = newStatus;
     }
 }

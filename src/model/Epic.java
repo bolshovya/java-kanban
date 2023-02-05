@@ -32,18 +32,18 @@ public class Epic extends Task {
         int countNew = 0;
         int countDone = 0;
         for (Subtask subtask : subtaskInEpic) {
-            if (subtask.getStatus() == "NEW") {
+            if (subtask.getStatus() == TaskStatus.NEW) {
                 countNew++;
-            } else if (subtask.getStatus() == "DONE") {
+            } else if (subtask.getStatus() == TaskStatus.DONE) {
                 countDone++;
             }
         }
         if (countNew == subtaskInEpic.size()) {
-            setStatus("NEW");
+            setStatus(TaskStatus.NEW);
         } else if (countDone == subtaskInEpic.size()) {
-            setStatus("DONE");
+            setStatus(TaskStatus.DONE);
         } else {
-            setStatus("IN_PROGRESS");
+            setStatus(TaskStatus.IN_PROGRESS);
         }
     }
 
