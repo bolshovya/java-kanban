@@ -31,6 +31,29 @@ public class Main {
         Subtask subtask21 = new Subtask("Просмотреть все ролики из плей-листа", "Ютуб", epic2);
         inMemoryTaskManager.addSubtask(subtask21);
 
+        /*
+        inMemoryTaskManager.printListOfAllTasks(inMemoryTaskManager.listOfAllTask());
+        inMemoryTaskManager.printListOfAllSubtasks(inMemoryTaskManager.listOfAllSubtask());
+        inMemoryTaskManager.printListOfAllEpics(inMemoryTaskManager.listOfAllEpic());
+        */
 
+        inMemoryTaskManager.getTaskById(1675990516);
+        inMemoryTaskManager.getTaskById(1619207184);
+        inMemoryTaskManager.getTaskById(1675990516);
+
+        inMemoryTaskManager.getTaskById(1619207184);
+        inMemoryTaskManager.getSubtaskById(1238197231);
+        inMemoryTaskManager.getSubtaskById(1238197231);
+        inMemoryTaskManager.getSubtaskById(2005382298);
+        inMemoryTaskManager.getSubtaskById(1286230484);
+        inMemoryTaskManager.getEpicById(79775152);
+        inMemoryTaskManager.getEpicById(79775152);
+        inMemoryTaskManager.getTaskById(1675990516);
+        inMemoryTaskManager.getTaskById(1619207184);
+        inMemoryTaskManager.getTaskById(1675990516);
+
+        inMemoryTaskManager.getHistory();
+
+        inMemoryTaskManager.printHistory(inMemoryTaskManager.getHistory());
     }
 }
