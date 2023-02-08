@@ -10,22 +10,19 @@ public class InMemoryHistoryManager implements HistoryManager {
     private List<Task> history = new ArrayList<>();
 
     @Override
-    public List<Task> getHistory() {
-        int historySize = 10;
-        while (history.size() > historySize) {
+    public void add(Task task) {
+        if (task == null) {
+            return;
+        }
+        if (history.size() > 10) {
             history.remove(0);
         }
-        return history;
-    }
-
-    public List<Task> getHistoryList() {
-        return history;
+        history.add(task);
     }
 
     @Override
-    public void setHistory(List<Task> list) {
-        this.history = list;
+    public List<Task> getHistory() {
+        return new ArrayList<>(history);
     }
-
 
 }

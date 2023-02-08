@@ -10,8 +10,7 @@ public class InMemoryTaskManager implements TaskManager {
     private Map<Integer, Task> taskStorage = new HashMap<>();
     private Map<Integer, Epic> epicStorage = new HashMap<>();
     private Map<Integer, Subtask> subtaskStorage = new HashMap<>();
-
-    private List<Task> history = new ArrayList<>();
+    HistoryManager historyManager = Managers.getDefaultHistory();
 
 
     @Override
@@ -60,21 +59,21 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(Integer id) { // 2.3 Получение по идентификатору
         Task returnedTask = taskStorage.get(id);
-        history.add(returnedTask);
+        historyManager.add(returnedTask);
         return returnedTask;
     }
 
     @Override
     public Epic getEpicById(Integer id) { // 2.3 Получение эпик-задачи по идентификатору
         Epic returnedEpic = epicStorage.get(id);
-        history.add(returnedEpic);
+        historyManager.add(returnedEpic);
         return returnedEpic;
     }
 
     @Override
     public Subtask getSubtaskById(Integer id) { // 2.3 Получение подзадачи по идентификатору
         Subtask returnedSubtask = subtaskStorage.get(id);
-        history.add(returnedSubtask);
+        historyManager.add(returnedSubtask);
         return returnedSubtask;
     }
 
@@ -160,8 +159,6 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     public List<Task> getHistory() {
-        InMemoryHistoryManager historyManager = (InMemoryHistoryManager) Managers.getDefaultHistory();
-        historyManager.setHistory(history);
         return historyManager.getHistory();
     }
 

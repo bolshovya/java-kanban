@@ -31,11 +31,7 @@ public class Main {
         Subtask subtask21 = new Subtask("Просмотреть все ролики из плей-листа", "Ютуб", epic2);
         inMemoryTaskManager.addSubtask(subtask21);
 
-        /*
-        inMemoryTaskManager.printListOfAllTasks(inMemoryTaskManager.listOfAllTask());
-        inMemoryTaskManager.printListOfAllSubtasks(inMemoryTaskManager.listOfAllSubtask());
-        inMemoryTaskManager.printListOfAllEpics(inMemoryTaskManager.listOfAllEpic());
-        */
+
 
         inMemoryTaskManager.getTaskById(1675990516);
         inMemoryTaskManager.getTaskById(1619207184);
