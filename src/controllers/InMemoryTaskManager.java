@@ -164,29 +164,5 @@ public class InMemoryTaskManager implements TaskManager {
 
 
 
-    // Ниже методы для самопроверки
 
-    public void printHistory(List<Task> list) {
-        for (Task task : list) {
-            System.out.println(task);
-        }
-    }
-
-    public void printListOfAllTasks(List<Task> list) {
-        for (Task task : list) {
-            System.out.println(task);
-        }
-    }
-
-    public void printListOfAllEpics(List<Epic> list) {
-        for (Epic epic : list) {
-            System.out.println(epic);
-        }
-    }
-
-    public void printListOfAllSubtasks(List<Subtask> list) {
-        for (Subtask subtask : list) {
-            System.out.println(subtask);
-        }
-    }
 }

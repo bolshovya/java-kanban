@@ -28,6 +28,7 @@ public class Epic extends Task {
         return result+Arrays.toString(subtaskStorage);
     }
 
+    /*
     public void updateEpicStatus() {
         int countNew = 0;
         int countDone = 0;
@@ -44,6 +45,26 @@ public class Epic extends Task {
             setStatus(TaskStatus.DONE);
         } else {
             setStatus(TaskStatus.IN_PROGRESS);
+        }
+    } */
+
+    public void updateEpicStatus() {
+        int countNew = 0;
+        int countDone = 0;
+        for (Subtask subtask : subtaskInEpic) {
+            if (subtask.getStatus() == TaskStatus.IN_PROGRESS) {
+                setStatus(TaskStatus.IN_PROGRESS);
+                return;
+            } else if (subtask.getStatus() == TaskStatus.NEW) {
+                countNew++;
+            } else if (subtask.getStatus() == TaskStatus.DONE) {
+                countDone++;
+            }
+        }
+        if (countNew == subtaskInEpic.size()) {
+            setStatus(TaskStatus.NEW);
+        } else if (countDone == subtaskInEpic.size()) {
+            setStatus(TaskStatus.DONE);
         }
     }
 

@@ -24,8 +24,7 @@ public class Subtask extends Task {
     @Override
     public void setStatus(TaskStatus newStatus) {
         this.status = newStatus;
-        Epic epic = this.epicTag;
-        epic.updateEpicStatus();
+        epicTag.updateEpicStatus();
     }
 
 }

@@ -46,4 +46,12 @@ public class Task {
     public void setStatus(TaskStatus newStatus) {
         this.status = newStatus;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && name.equals(task.name) && description.equals(task.description) && status == task.status;
+    }
 }

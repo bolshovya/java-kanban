@@ -50,6 +50,6 @@ public class Main {
 
         inMemoryTaskManager.getHistory();
 
-        inMemoryTaskManager.printHistory(inMemoryTaskManager.getHistory());
+
     }
 }
