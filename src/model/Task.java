@@ -9,8 +9,49 @@ public class Task {
     public Task(String name, String description) {
         this.name = name;
         this.description = description;
-        this.id = createId();
         this.status = TaskStatus.NEW;
+    }
+
+    public Task(String name, String description, int id, TaskStatus status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+        this.id = id;
+    }
+
+    public static Task fromString(String value) {
+        String[] parts = value.split(",");
+        if (parts.length > 5) {
+            int id = Integer.parseInt(parts[0]);
+            TaskType type = TaskType.valueOf(parts[1]);
+            String name = parts[2];
+            TaskStatus status = TaskStatus.valueOf(parts[3]);
+            String description = parts[4];
+            int epicId = Integer.parseInt(parts[5]);
+            return new Subtask(name, description, id, status, epicId);
+        } else {
+            int id = Integer.parseInt(parts[0]);
+            TaskType type = TaskType.valueOf(parts[1]);
+            String name = parts[2];
+            TaskStatus status = TaskStatus.valueOf(parts[3]);
+            String description = parts[4];
+            switch (type) {
+                case TASK:
+                    return new Task(name, description, id, status);
+
+                case EPIC:
+                    return new Epic(name, description, id, status);
+            }
+        }
+        return null;
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
+    public String saveTaskToString() {
+        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description;
     }
 
     @Override
@@ -37,6 +78,11 @@ public class Task {
 
     public Integer getId() {
         return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+
     }
 
     public TaskStatus getStatus() {

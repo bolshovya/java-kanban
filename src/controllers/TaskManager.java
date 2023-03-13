@@ -62,7 +62,7 @@ public interface TaskManager {
     void removeSubtask(Integer id);
 
 
-    void getListOfAllSubtaskEpic(Epic epic);
+    List<Subtask> getListOfAllSubtaskEpic(Epic epic);
 
 
     List<Task> getHistory();

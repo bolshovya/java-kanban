@@ -2,12 +2,17 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Epic extends Task {
     private ArrayList <Subtask> subtaskInEpic = new ArrayList<>();
 
     public Epic(String name, String discription) {
         super(name, discription);
+    }
+
+    public Epic(String name, String description, int id, TaskStatus status) {
+        super(name, description, id, status);
     }
 
     public void setSubtaskIncludedInTheEpic(Subtask addSubtask) {
@@ -28,25 +33,6 @@ public class Epic extends Task {
         return result+Arrays.toString(subtaskStorage);
     }
 
-    /*
-    public void updateEpicStatus() {
-        int countNew = 0;
-        int countDone = 0;
-        for (Subtask subtask : subtaskInEpic) {
-            if (subtask.getStatus() == TaskStatus.NEW) {
-                countNew++;
-            } else if (subtask.getStatus() == TaskStatus.DONE) {
-                countDone++;
-            }
-        }
-        if (countNew == subtaskInEpic.size()) {
-            setStatus(TaskStatus.NEW);
-        } else if (countDone == subtaskInEpic.size()) {
-            setStatus(TaskStatus.DONE);
-        } else {
-            setStatus(TaskStatus.IN_PROGRESS);
-        }
-    } */
 
     public void updateEpicStatus() {
         int countNew = 0;
@@ -67,6 +53,17 @@ public class Epic extends Task {
             setStatus(TaskStatus.DONE);
         }
     }
+
+
+    public List<Subtask> getSubtaskList() {
+        List<Subtask> list = subtaskInEpic;
+        return list;
+    }
+
+    public void setSubtaskList(List<Subtask> list) {
+        this.subtaskInEpic = (ArrayList<Subtask>) list;
+    }
+
 
 }
 

@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private Map<Integer, Task> taskStorage = new HashMap<>();
-    private Map<Integer, Epic> epicStorage = new HashMap<>();
-    private Map<Integer, Subtask> subtaskStorage = new HashMap<>();
+    protected static int idCount = 1;
+    protected Map<Integer, Task> taskStorage = new HashMap<>();
+    protected Map<Integer, Epic> epicStorage = new HashMap<>();
+    protected Map<Integer, Subtask> subtaskStorage = new HashMap<>();
     HistoryManager historyManager = Managers.getDefaultHistory();
 
 
@@ -79,17 +80,23 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task newTask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
-        taskStorage.put(newTask.getId(), newTask);
+        newTask.setId(idCount);
+        taskStorage.put(idCount, newTask);
+        idCount++;
     }
 
     @Override
     public void addEpic(Epic newEpic) { // 2.4 Создание эпик-задачи. Сам объект должен передаваться в качестве параметра.
-        epicStorage.put(newEpic.getId(), newEpic);
+        newEpic.setId(idCount);
+        epicStorage.put(idCount, newEpic);
+        idCount++;
     }
 
     @Override
     public void addSubtask(Subtask newSubtask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
-        subtaskStorage.put(newSubtask.getId(), newSubtask);
+        newSubtask.setId(idCount);
+        subtaskStorage.put(idCount, newSubtask);
+        idCount++;
         Integer epicId = newSubtask.getEpicId();
         Epic epicBuffer = epicStorage.get(epicId);
         epicBuffer.setSubtaskIncludedInTheEpic(newSubtask);
@@ -145,16 +152,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void getListOfAllSubtaskEpic(Epic epic) { // 3.1 Получение списка всех подзадач определенённого эпика
-        ArrayList<Subtask> epicIdInSubtask = new ArrayList<>();
-        for (Subtask subtask : subtaskStorage.values()) {
-            if ((subtask.getSubtaskIncludedInEpic()).equals(epic)) {
-                epicIdInSubtask.add(subtask);
-            }
-        }
-        for (Subtask subtask : epicIdInSubtask) {
-            System.out.println(subtask);
-        }
+    public List<Subtask> getListOfAllSubtaskEpic(Epic epic) { // 3.1 Получение списка всех подзадач определенённого эпика
+        return epic.getSubtaskList();
     }
 
 
