@@ -7,8 +7,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import static model.TaskType.*;
-
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
@@ -61,25 +59,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         fileBackedTasksManager1.getHistory();
 
-        List<Task> list = fileBackedTasksManager1.getHistory();
-
-        for (Task task : list) {
-            System.out.println(task.getId());
-        }
-
-        /*
-        5
-        4
-        7
-        3
-        6
-        2
-        1
-         */
-
-
         FileBackedTasksManager fileBackedTasksManager2 = new FileBackedTasksManager();
-        // fileBackedTasksManager2.loadFromFile(new File(savePath));
+        fileBackedTasksManager2.loadFromFile(new File(savePath));
 
 
     }
@@ -118,13 +99,13 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
                 Task loadTask = Task.fromString(lineTask);
                 switch (loadTask.getType()) {
                     case TASK:
-                        manager.addTask(loadTask);
+                        manager.taskStorage.put(loadTask.getId(), loadTask);
                         break;
                     case EPIC:
-                        manager.addEpic((Epic) loadTask);
+                        manager.epicStorage.put(loadTask.getId(), (Epic) loadTask);
                         break;
                     case SUBTASK:
-                        manager.addSubtask((Subtask) loadTask);
+                        manager.subtaskStorage.put(loadTask.getId(), (Subtask) loadTask);
                         break;
                     default:
                         break;
@@ -252,30 +233,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public void removeTask(Integer id) { // 2.6 Удаление задачи по идентификатору
-        taskStorage.remove(id);
+        super.removeTask(id);
     }
 
     @Override
     public void removeEpic(Integer id) { // 2.6 Удаление эпика по идентификатору
-        epicStorage.remove(id);
-        ArrayList<Integer> keys = new ArrayList<>();
-        for (Subtask subtask : subtaskStorage.values()) {
-            if ((subtask.getEpicId()).equals(id)) {
-                keys.add(subtask.getId());
-            }
-        }
-        for (Integer key : keys) {
-            subtaskStorage.remove(key);
-        }
+        super.removeEpic(id);
     }
 
     @Override
     public void removeSubtask(Integer id) { // 2.6 Удаление подзадачи по идентификатору
-        Subtask subtask = subtaskStorage.get(id);
-        Integer epicId = subtask.getEpicId();
-        Epic epicBuffer = epicStorage.get(epicId);
-        subtaskStorage.remove(id);
-        epicBuffer.updateEpicStatus();
+        super.removeSubtask(id);
     }
 
     @Override
@@ -288,89 +256,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         save();
         return super.historyManager.getHistory();
     }
-
-
-
-
-
-    /*
-    @Override
-    public void clearTaskList() {
-        super.clearTaskList();
-        save();
-    }
-
-    @Override
-    public void clearEpicList() {
-        super.clearEpicList();
-        save();
-    }
-
-    @Override
-    public void clearSubtaskList() {
-        super.clearSubtaskList();
-        save();
-    }
-
-
-    @Override
-    public void addTask(Task newTask) {
-        super.addTask(newTask);
-        save();
-    }
-
-    @Override
-    public void addEpic(Epic newEpic) {
-        super.addEpic(newEpic);
-        save();
-    }
-
-    @Override
-    public void addSubtask(Subtask newSubtask) {
-        super.addSubtask(newSubtask);
-        save();
-    }
-
-    @Override
-    public Task getTaskById(Integer id) {
-        save();
-        return super.getTaskById(id);
-    }
-
-    @Override
-    public Epic getEpicById(Integer id) {
-        save();
-        return super.getEpicById(id);
-    }
-
-    @Override
-    public Subtask getSubtaskById(Integer id) {
-        save();
-        return super.getSubtaskById(id);
-    }
-
-    @Override
-    public void updateTask(Integer idTask, Task newTask) {
-        super.updateTask(idTask, newTask);
-        save();
-    }
-
-    @Override
-    public void updateEpic(Integer idTask, Epic newEpic) {
-        super.updateEpic(idTask, newEpic);
-        save();
-    }
-
-    @Override
-    public void updateSubtask(Integer idSubtask, Subtask newSubtask) {
-        super.updateSubtask(idSubtask, newSubtask);
-        save();
-    }
-
-     */
-
-
-
-
 
 }

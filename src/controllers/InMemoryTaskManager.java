@@ -95,32 +95,38 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addSubtask(Subtask newSubtask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
         newSubtask.setId(idCount);
+        Integer epicId = newSubtask.getEpicId();
         subtaskStorage.put(idCount, newSubtask);
         idCount++;
-        Integer epicId = newSubtask.getEpicId();
         Epic epicBuffer = epicStorage.get(epicId);
         epicBuffer.setSubtaskIncludedInTheEpic(newSubtask);
         epicBuffer.updateEpicStatus();
-        epicStorage.put(epicBuffer.getId(), epicBuffer);
+        epicStorage.put(epicId, epicBuffer);
     }
 
     @Override
     public void updateTask(Integer idTask, Task newTask) { // 2.5 Обновление.
-        taskStorage.put(idTask, newTask);
+        if (taskStorage.containsKey(idTask)) {
+            taskStorage.put(idTask, newTask);
+        }
     }
 
     @Override
     public void updateEpic(Integer idTask, Epic newEpic) { // 2.5 Обновление эпик-задачи.
-        epicStorage.put(idTask, newEpic);
+        if (epicStorage.containsKey(idTask)) {
+            epicStorage.put(idTask, newEpic);
+        }
     }
 
     @Override
     public void updateSubtask(Integer idSubtask, Subtask newSubtask) { // 2.5 Обновление подзадачи.
-        subtaskStorage.put(idSubtask, newSubtask);
-        Integer epicId = newSubtask.getEpicId();
-        Epic epicBuffer = epicStorage.get(epicId);
-        epicBuffer.updateEpicStatus();
-        epicStorage.put(epicId, epicBuffer);
+        if (subtaskStorage.containsKey(idSubtask)) {
+            subtaskStorage.put(idSubtask, newSubtask);
+            Integer epicId = newSubtask.getEpicId();
+            Epic epicBuffer = epicStorage.get(epicId);
+            epicBuffer.updateEpicStatus();
+            epicStorage.put(epicId, epicBuffer);
+        }
     }
 
     @Override
