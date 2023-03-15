@@ -11,34 +11,22 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Task> taskStorage = new HashMap<>();
     protected Map<Integer, Epic> epicStorage = new HashMap<>();
     protected Map<Integer, Subtask> subtaskStorage = new HashMap<>();
-    HistoryManager historyManager = Managers.getDefaultHistory();
+    protected HistoryManager historyManager = Managers.getDefaultHistory();
 
 
     @Override
     public List<Task> listOfAllTask() { // 2.1 Получение списка всех задач.
-        List<Task> taskList = new ArrayList<>();
-        for (Task task : taskStorage.values()) {
-            taskList.add(task);
-        }
-        return (List<Task>) taskList;
+        return new ArrayList<>(taskStorage.values());
     }
 
     @Override
     public List<Epic> listOfAllEpic() { // 2.1 Получение списка всех эпик-задач.
-        List<Epic> epicList = new ArrayList<>();
-        for (Epic epic : epicStorage.values()) {
-            epicList.add(epic);
-        }
-        return (List<Epic>) epicList;
+        return new ArrayList<>(epicStorage.values());
     }
 
     @Override
     public List<Subtask> listOfAllSubtask() { // 2.1 Получение списка всех подзадач.
-        List<Subtask> subtaskList = new ArrayList<>();
-        for (Subtask subtask : subtaskStorage.values()) {
-            subtaskList.add(subtask);
-        }
-        return (List<Subtask>) subtaskList;
+        return new ArrayList<>(subtaskStorage.values());
     }
 
     @Override
@@ -54,6 +42,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearSubtaskList() { // 2.2 Удаление всех подзадач.
+        for (Epic epic : epicStorage.values()) {
+            epic.clearSubtaskList();
+            epic.updateEpicStatus();
+        }
         subtaskStorage.clear();
     }
 

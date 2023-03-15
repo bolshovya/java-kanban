@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    final static String savePath = "/home/bolshovya/dev/java-kanban/data.csv";
+    final static String savePath = "src/resources/data.csv";
 
 
 
@@ -152,51 +152,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
     }
 
 
-    @Override
-    public List<Task> listOfAllTask() { // 2.1 Получение списка всех задач.
-        return super.listOfAllTask();
-    }
-
-    @Override
-    public List<Epic> listOfAllEpic() { // 2.1 Получение списка всех эпик-задач.
-        return super.listOfAllEpic();
-    }
-
-    @Override
-    public List<Subtask> listOfAllSubtask() { // 2.1 Получение списка всех подзадач.
-        return super.listOfAllSubtask();
-    }
-
-    @Override
-    public void clearTaskList() { // 2.2 Удаление всех задач.
-        taskStorage.clear();
-    }
-
-    @Override
-    public void clearEpicList() { // 2.2 Удаление всех эпик-задач.
-        epicStorage.clear();
-        subtaskStorage.clear();
-    }
-
-    @Override
-    public void clearSubtaskList() { // 2.2 Удаление всех подзадач.
-        subtaskStorage.clear();
-    }
-
-    @Override
-    public Task getTaskById(Integer id) { // 2.3 Получение по идентификатору
-        return super.getTaskById(id);
-    }
-
-    @Override
-    public Epic getEpicById(Integer id) { // 2.3 Получение эпик-задачи по идентификатору
-        return super.getEpicById(id);
-    }
-
-    @Override
-    public Subtask getSubtaskById(Integer id) { // 2.3 Получение подзадачи по идентификатору
-        return super.getSubtaskById(id);
-    }
 
     @Override
     public void addTask(Task newTask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
@@ -218,38 +173,22 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public void updateTask(Integer idTask, Task newTask) { // 2.5 Обновление.
+        save();
         super.updateTask(idTask, newTask);
     }
 
     @Override
     public void updateEpic(Integer idTask, Epic newEpic) { // 2.5 Обновление эпик-задачи.
+        save();
         super.updateEpic(idTask, newEpic);
     }
 
     @Override
     public void updateSubtask(Integer idSubtask, Subtask newSubtask) { // 2.5 Обновление подзадачи.
+        save();
         super.updateSubtask(idSubtask, newSubtask);
     }
 
-    @Override
-    public void removeTask(Integer id) { // 2.6 Удаление задачи по идентификатору
-        super.removeTask(id);
-    }
-
-    @Override
-    public void removeEpic(Integer id) { // 2.6 Удаление эпика по идентификатору
-        super.removeEpic(id);
-    }
-
-    @Override
-    public void removeSubtask(Integer id) { // 2.6 Удаление подзадачи по идентификатору
-        super.removeSubtask(id);
-    }
-
-    @Override
-    public List<Subtask> getListOfAllSubtaskEpic(Epic epic) { // 3.1 Получение списка всех подзадач определенённого эпика
-        return super.getListOfAllSubtaskEpic(epic);
-    }
 
     @Override
     public List<Task> getHistory() {

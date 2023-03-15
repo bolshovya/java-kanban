@@ -69,6 +69,10 @@ public class Epic extends Task {
         this.subtaskInEpic = (ArrayList<Subtask>) list;
     }
 
+    public void clearSubtaskList() {
+        this.subtaskInEpic.clear();
+    }
+
 
 }
 
