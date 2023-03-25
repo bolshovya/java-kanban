@@ -4,6 +4,8 @@ import exceptions.ManagerSaveException;
 import model.*;
 import java.io.*;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +20,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         FileBackedTasksManager fileBackedTasksManager1 = new FileBackedTasksManager();
 
-        Task task1 = new Task("Купить продукты", "Съездить в Окей");
+        Task task1 = new Task("Купить продукты", "Съездить в Окей", TaskStatus.NEW,
+                LocalDateTime.of(2023, 3, 26, 0, 56), Duration.ofMinutes(20));
         fileBackedTasksManager1.addTask(task1);
+        // LocalDateTime startTimeTask1 = LocalDateTime.of(2023, 3, 26, 00, 56);
 
-        Task task2 = new Task("Купить мебель", "Съездить в Икею");
+
+        Task task2 = new Task("Купить мебель", "Съездить в Икею", TaskStatus.NEW,
+                LocalDateTime.of(2023, 3, 26, 0, 58), Duration.ofMinutes(20));
         fileBackedTasksManager1.addTask(task2);
 
         Epic epic1 = new Epic("Выполнить проектную работу Практикума"
@@ -29,17 +35,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         fileBackedTasksManager1.addEpic(epic1);
 
         Subtask subtask11 = new Subtask("Успешно пройти теоретический блок спринта №3"
-                , "Изучить всю теорию и выполнить успешно все задачи в тренажере", epic1.getId());
+                , "Изучить всю теорию и выполнить успешно все задачи в тренажере", TaskStatus.NEW,
+                LocalDateTime.of(2023, 3, 26, 1, 1), Duration.ofMinutes(20), epic1.getId());
         fileBackedTasksManager1.addSubtask(subtask11);
 
         Subtask subtask12 = new Subtask("Выполнить задачу по Cody Style"
-                , "Выполнить задачу самому и провести ревью сокурсника", epic1.getId());
+                , "Выполнить задачу самому и провести ревью сокурсника", TaskStatus.NEW,
+                LocalDateTime.of(2023, 3, 26, 1, 2), Duration.ofMinutes(20), epic1.getId());
         fileBackedTasksManager1.addSubtask(subtask12);
 
         Epic epic2 = new Epic("Изучить курс на Ютубе JAVA", "Курс Алишева");
         fileBackedTasksManager1.addEpic(epic2);
 
-        Subtask subtask21 = new Subtask("Просмотреть все ролики из плей-листа", "Ютуб", epic2.getId());
+        Subtask subtask21 = new Subtask("Просмотреть все ролики из плей-листа", "Ютуб", TaskStatus.NEW,
+                LocalDateTime.of(2023, 3, 26, 1, 3), Duration.ofMinutes(20), epic2.getId());
         fileBackedTasksManager1.addSubtask(subtask21);
 
 
@@ -173,20 +182,20 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
     @Override
     public void updateTask(Integer idTask, Task newTask) { // 2.5 Обновление.
-        save();
         super.updateTask(idTask, newTask);
+        save();
     }
 
     @Override
     public void updateEpic(Integer idTask, Epic newEpic) { // 2.5 Обновление эпик-задачи.
-        save();
         super.updateEpic(idTask, newEpic);
+        save();
     }
 
     @Override
     public void updateSubtask(Integer idSubtask, Subtask newSubtask) { // 2.5 Обновление подзадачи.
-        save();
         super.updateSubtask(idSubtask, newSubtask);
+        save();
     }
 
 

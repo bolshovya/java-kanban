@@ -96,6 +96,9 @@ public class InMemoryTaskManager implements TaskManager {
         epicStorage.put(epicId, epicBuffer);
     }
 
+    public int getNewId() {
+        return idCount++;
+    }
     @Override
     public void updateTask(Integer idTask, Task newTask) { // 2.5 Обновление.
         if (taskStorage.containsKey(idTask)) {
