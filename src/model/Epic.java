@@ -13,11 +13,11 @@ public class Epic extends Task {
     LocalDateTime startTime;
     LocalDateTime endTime;
 
-    public Epic(String name, String discription) {
-        super(name, discription);
-        setEpicStartTime();
-        setEpicDuration();
-        setEpicEndTime();
+    public Epic(String name, String description) {
+        super(name, description);
+        this.startTime = LocalDateTime.MAX;
+        this.epicDuration = Duration.ZERO;
+        this.endTime = startTime.plus(epicDuration);
     }
 
     /*
@@ -34,7 +34,7 @@ public class Epic extends Task {
 
     public void setEpicDuration() {
         if (subtaskInEpic.isEmpty()) {
-            this.duration = Duration.ZERO;
+            this.epicDuration = Duration.ZERO;
         }
         Duration sumDuration = Duration.ZERO;
         for (Subtask subtask : subtaskInEpic) {
@@ -50,14 +50,15 @@ public class Epic extends Task {
     public void setEpicStartTime() {
         if (subtaskInEpic.isEmpty()) {
             this.startTime = LocalDateTime.of(2001,1,1,1,1);
-        }
-        LocalDateTime earlySubtaskStartTime = LocalDateTime.MAX;
-        for (Subtask subtask : subtaskInEpic) {
-            if (earlySubtaskStartTime.isAfter(subtask.getStartTime())) {
-                earlySubtaskStartTime = subtask.getStartTime();
+        } else {
+            LocalDateTime earlySubtaskStartTime = LocalDateTime.MAX;
+            for (Subtask subtask : subtaskInEpic) {
+                if (earlySubtaskStartTime.isAfter(subtask.getStartTime())) {
+                    earlySubtaskStartTime = subtask.getStartTime();
+                }
             }
+            this.startTime = earlySubtaskStartTime;
         }
-        this.startTime = earlySubtaskStartTime;
     }
 
     public LocalDateTime getEpicStartTime() {
@@ -68,14 +69,15 @@ public class Epic extends Task {
     public void setEpicEndTime() {
         if (subtaskInEpic.isEmpty()) {
             this.endTime = startTime;
-        }
-        LocalDateTime lastSubtaskEndTime = LocalDateTime.MIN;
-        for (Subtask subtask : subtaskInEpic) {
-            if (lastSubtaskEndTime.isBefore(subtask.getEndTime())) {
-                lastSubtaskEndTime = subtask.getEndTime();
+        } else {
+            LocalDateTime lastSubtaskEndTime = LocalDateTime.MIN;
+            for (Subtask subtask : subtaskInEpic) {
+                if (lastSubtaskEndTime.isBefore(subtask.getEndTime())) {
+                    lastSubtaskEndTime = subtask.getEndTime();
+                }
             }
+            this.endTime = lastSubtaskEndTime;
         }
-        this.endTime = lastSubtaskEndTime;
     }
 
     public LocalDateTime getEpicEndTime() {

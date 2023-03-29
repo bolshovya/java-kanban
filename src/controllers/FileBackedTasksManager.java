@@ -23,7 +23,6 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         Task task1 = new Task("Купить продукты", "Съездить в Окей", TaskStatus.NEW,
                 LocalDateTime.of(2023, 3, 26, 0, 56), Duration.ofMinutes(20));
         fileBackedTasksManager1.addTask(task1);
-        // LocalDateTime startTimeTask1 = LocalDateTime.of(2023, 3, 26, 00, 56);
 
 
         Task task2 = new Task("Купить мебель", "Съездить в Икею", TaskStatus.NEW,
@@ -70,6 +69,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         FileBackedTasksManager fileBackedTasksManager2 = new FileBackedTasksManager();
         fileBackedTasksManager2.loadFromFile(new File(savePath));
+
+
 
 
     }

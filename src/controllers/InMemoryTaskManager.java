@@ -1,10 +1,11 @@
 package controllers;
 
 import model.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected static int idCount = 1;
@@ -13,6 +14,30 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Subtask> subtaskStorage = new HashMap<>();
     protected HistoryManager historyManager = Managers.getDefaultHistory();
 
+    protected Set<Task> taskTreeSet = new TreeSet<>();
+
+
+    public List<Task> getPrioritizedTasks() {
+        return taskTreeSet.stream().sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
+                .collect(Collectors.toList());
+    }
+
+    Predicate<Task> checkForIntersect = new Predicate<Task>() {
+        @Override
+        public boolean test(Task task) {
+            LocalDateTime startTimeTask = task.getStartTime();
+            LocalDateTime endTimeTask = task.getEndTime();
+
+            for (Task taskInSet : taskTreeSet) {
+                if (endTimeTask.isBefore(taskInSet.getStartTime())) {
+                    return false;
+                } else if (startTimeTask.isAfter(taskInSet.getEndTime())) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    };
 
     @Override
     public List<Task> listOfAllTask() { // 2.1 Получение списка всех задач.
@@ -74,6 +99,9 @@ public class InMemoryTaskManager implements TaskManager {
     public void addTask(Task newTask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
         newTask.setId(idCount);
         taskStorage.put(idCount, newTask);
+        if (!checkForIntersect.test(newTask)) {
+            taskTreeSet.add(newTask);
+        }
         idCount++;
     }
 
@@ -89,16 +117,19 @@ public class InMemoryTaskManager implements TaskManager {
         newSubtask.setId(idCount);
         Integer epicId = newSubtask.getEpicId();
         subtaskStorage.put(idCount, newSubtask);
+        if (!checkForIntersect.test(newSubtask)) {
+            taskTreeSet.add(newSubtask);
+        }
         idCount++;
         Epic epicBuffer = epicStorage.get(epicId);
         epicBuffer.setSubtaskIncludedInTheEpic(newSubtask);
         epicBuffer.updateEpicStatus();
+        epicBuffer.setEpicStartTime();
+        epicBuffer.setEpicEndTime();
         epicStorage.put(epicId, epicBuffer);
     }
 
-    public int getNewId() {
-        return idCount++;
-    }
+
     @Override
     public void updateTask(Integer idTask, Task newTask) { // 2.5 Обновление.
         if (taskStorage.containsKey(idTask)) {
