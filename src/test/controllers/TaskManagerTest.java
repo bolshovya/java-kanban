@@ -1,12 +1,8 @@
-package controllers;
-
-import model.Task;
-import model.TaskStatus;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
+class TaskManagerTest {
 
     @Test
     void listOfAllTask() {
@@ -46,8 +42,6 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addTask() {
-        //InMemoryTaskManager inMemoryTaskManager = new InMemoryTaskManager();
-        //Task task = new Task("newTaskName", "newTaskDescription", TaskStatus.NEW, );
     }
 
     @Test
