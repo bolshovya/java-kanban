@@ -41,8 +41,8 @@ public class Subtask extends Task {
 
     @Override
     public String saveTaskToString() {
-        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicId  + "," +
-                dateTimeFormatter(startTime) + "," + duration.toMinutes() + "," + dateTimeFormatter(getEndTime());
+        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," +
+                dateTimeFormatter(startTime) + "," + duration.toMinutes() + "," + dateTimeFormatter(getEndTime()) + "," + epicId;
     }
 
     /*

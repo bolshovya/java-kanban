@@ -158,6 +158,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeTask(Integer id) { // 2.6 Удаление задачи по идентификатору
         taskStorage.remove(id);
+        historyManager.remove(id);
     }
 
     @Override
@@ -172,6 +173,7 @@ public class InMemoryTaskManager implements TaskManager {
         for (Integer key : keys) {
             subtaskStorage.remove(key);
         }
+        historyManager.remove(id);
     }
 
     @Override
@@ -181,6 +183,7 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epicBuffer = epicStorage.get(epicId);
         subtaskStorage.remove(id);
         epicBuffer.updateEpicStatus();
+        historyManager.remove(id);
     }
 
     @Override

@@ -52,10 +52,10 @@ public class Task {
             String name = parts[2];
             TaskStatus status = TaskStatus.valueOf(parts[3]);
             String description = parts[4];
-            LocalDateTime startTime = LocalDateTime.parse(parts[6],DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-            Duration durationTask = Duration.ofMinutes(Integer.parseInt(parts[7]));
-            LocalDateTime endTime = LocalDateTime.parse(parts[8],DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-            int epicId = Integer.parseInt(parts[5]);
+            LocalDateTime startTime = LocalDateTime.parse(parts[5],DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+            Duration durationTask = Duration.ofMinutes(Integer.parseInt(parts[6]));
+            LocalDateTime endTime = LocalDateTime.parse(parts[7],DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+            int epicId = Integer.parseInt(parts[8]);
             return new Subtask(name, description, id, status, startTime, durationTask, endTime, epicId);
         } else {
             int id = Integer.parseInt(parts[0]);
