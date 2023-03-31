@@ -1,3 +1,5 @@
+package controllers;
+
 import controllers.InMemoryTaskManager;
 import controllers.TaskManager;
 import model.Epic;
@@ -13,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public abstract class TaskManagerTest<T extends TaskManager> {
+abstract class TaskManagerTest<T extends InMemoryTaskManager> {
 
     T manager;
 

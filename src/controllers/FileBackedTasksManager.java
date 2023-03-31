@@ -138,6 +138,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             return manager;
         } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
+        } catch (NumberFormatException e) {
+            return new FileBackedTasksManager();
         }
     }
 

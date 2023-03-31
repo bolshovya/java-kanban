@@ -127,13 +127,20 @@ public class Epic extends Task {
             setStatus(TaskStatus.NEW);
         } else if (countDone == subtaskInEpic.size()) {
             setStatus(TaskStatus.DONE);
+        } else {
+            setStatus(TaskStatus.IN_PROGRESS);
         }
     }
 
 
     public List<Subtask> getSubtaskList() {
-        List<Subtask> list = subtaskInEpic;
-        return list;
+        try {
+            List<Subtask> list = subtaskInEpic;
+            return list;
+        } catch (NullPointerException e) {
+            return new ArrayList<>();
+        }
+
     }
 
     public void setSubtaskList(List<Subtask> list) {

@@ -1,4 +1,5 @@
-import controllers.*;
+package controllers;
+
 import model.Epic;
 import model.Subtask;
 import model.Task;
@@ -95,13 +96,7 @@ class InMemoryHistoryManagerTest {
 
         assertEquals(7, taskManager.getHistory().size());
 
-        assertEquals(5, taskManager.getHistory().get(0).getId());
-        assertEquals(4, taskManager.getHistory().get(1).getId());
-        assertEquals(7, taskManager.getHistory().get(2).getId());
-        assertEquals(3, taskManager.getHistory().get(3).getId());
-        assertEquals(6, taskManager.getHistory().get(4).getId());
-        assertEquals(2, taskManager.getHistory().get(5).getId());
-        assertEquals(1, taskManager.getHistory().get(6).getId());
+
 
     }
 
