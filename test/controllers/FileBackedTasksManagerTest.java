@@ -11,7 +11,7 @@ import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static controllers.FileBackedTasksManager.savePath;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>{
@@ -34,6 +34,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
         epic1 = new Epic("Выполнить проектную работу Практикума"
                 , "Выполнить проектную работу согласно ТЗ");
+        manager.addEpic(epic1);
 
         subtask11 = new Subtask("Успешно пройти теоретический блок спринта №3"
                 , "Изучить всю теорию и выполнить успешно все задачи в тренажере", TaskStatus.NEW,
@@ -55,7 +56,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         manager.save();
 
         FileBackedTasksManager loaderManager = new FileBackedTasksManager();
-        loaderManager.loadFromFile(new File(savePath));
+        loaderManager.loadFromFile(new File("src/resources/data.csv"));
 
         assertEquals(true,loaderManager.listOfAllTask().isEmpty());
     }
@@ -65,7 +66,7 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         manager.save();
 
         FileBackedTasksManager loaderManager = new FileBackedTasksManager();
-        loaderManager.loadFromFile(new File(savePath));
+        loaderManager.loadFromFile(new File("src/resources/data.csv"));
 
         assertEquals(0, loaderManager.getHistory().size());
     }
@@ -76,10 +77,12 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
         manager.addEpic(epic1);
 
         FileBackedTasksManager loaderManager = new FileBackedTasksManager();
-        loaderManager.loadFromFile(new File(savePath));
+        loaderManager.loadFromFile(new File("src/resources/data.csv"));
 
         assertEquals(0,loaderManager.getListOfAllSubtaskEpic(epic1).size());
     }
+
+
 
 
 

@@ -8,7 +8,6 @@ import java.util.stream.Stream;
 
 public class Epic extends Task {
     private ArrayList <Subtask> subtaskInEpic = new ArrayList<>();
-    Duration epicDuration;
 
     LocalDateTime startTime;
     LocalDateTime endTime;
@@ -16,16 +15,10 @@ public class Epic extends Task {
     public Epic(String name, String description) {
         super(name, description);
         this.startTime = LocalDateTime.MAX;
-        this.epicDuration = Duration.ZERO;
-        this.endTime = startTime.plus(epicDuration);
+        this.duration = Duration.ZERO;
+        this.endTime = startTime.plus(duration);
     }
 
-    /*
-    public Epic(String name, String description, int id, TaskStatus status) {
-        super(name, description, id, status);
-    }
-
-     */
 
     public Epic(String name, String description, int id, TaskStatus status, LocalDateTime startTime, Duration duration, LocalDateTime endTime) {
         super(name, description, id, status, startTime, duration, endTime);
@@ -34,17 +27,17 @@ public class Epic extends Task {
 
     public void setEpicDuration() {
         if (subtaskInEpic.isEmpty()) {
-            this.epicDuration = Duration.ZERO;
+            this.duration = Duration.ZERO;
         }
         Duration sumDuration = Duration.ZERO;
         for (Subtask subtask : subtaskInEpic) {
             sumDuration = sumDuration.plus(subtask.getDuration());
         }
-        this.epicDuration = sumDuration;
+        this.duration = sumDuration;
     }
 
     public Duration getEpicDuration() {
-        return this.epicDuration;
+        return this.duration;
     }
 
     public void setEpicStartTime() {
@@ -88,7 +81,7 @@ public class Epic extends Task {
     @Override
     public String saveTaskToString() {
         return id + "," + TaskType.EPIC + "," + name + "," + status + "," + description + "," +
-                dateTimeFormatter(startTime) + "," + epicDuration.toMinutes() + "," + dateTimeFormatter(endTime);
+                dateTimeFormatter(startTime) + "," + duration.toMinutes() + "," + dateTimeFormatter(endTime);
     }
 
     public void setSubtaskIncludedInTheEpic(Subtask addSubtask) {

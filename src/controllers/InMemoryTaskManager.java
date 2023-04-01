@@ -14,13 +14,9 @@ public class InMemoryTaskManager implements TaskManager {
     protected Map<Integer, Subtask> subtaskStorage = new HashMap<>();
     protected HistoryManager historyManager = Managers.getDefaultHistory();
 
-    protected Set<Task> taskTreeSet = new TreeSet<>();
+    protected Set<Task> taskTreeSet = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
 
-    public List<Task> getPrioritizedTasks() {
-        return taskTreeSet.stream().sorted((o1, o2) -> o1.getStartTime().compareTo(o2.getStartTime()))
-                .collect(Collectors.toList());
-    }
 
     Predicate<Task> checkForIntersect = new Predicate<Task>() {
         @Override
@@ -32,6 +28,8 @@ public class InMemoryTaskManager implements TaskManager {
                 if (endTimeTask.isBefore(taskInSet.getStartTime())) {
                     return false;
                 } else if (startTimeTask.isAfter(taskInSet.getEndTime())) {
+                    return false;
+                } else if (startTimeTask.equals(taskInSet.getStartTime()) && endTimeTask.equals(taskInSet.getEndTime())) {
                     return false;
                 }
             }

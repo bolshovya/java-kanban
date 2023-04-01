@@ -12,7 +12,7 @@ import java.util.List;
 
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
-    final static String savePath = "src/resources/data.csv";
+    private final static String savePath = "src/resources/data.csv";
 
 
 
@@ -106,7 +106,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             String [] lines = content.split("\n");
             for (int i = 1; i < lines.length - 2; i++) {
                 String lineTask = lines[i];
-                Task loadTask = Task.fromString(lineTask);
+                Task loadTask = Tasks.fromString(lineTask);
                 switch (loadTask.getType()) {
                     case TASK:
                         manager.taskStorage.put(loadTask.getId(), loadTask);
@@ -208,4 +208,10 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         return super.historyManager.getHistory();
     }
 
+    @Override
+    public void removeTask(Integer id) { // 2.6 Удаление задачи по идентификатору
+        taskStorage.remove(id);
+        historyManager.remove(id);
+        save();
+    }
 }
