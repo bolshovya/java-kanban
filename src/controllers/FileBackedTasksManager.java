@@ -103,7 +103,7 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         try {
             FileBackedTasksManager manager = new FileBackedTasksManager();
             String content = Files.readString(file.toPath());
-            String [] lines = content.split("\n");
+            String [] lines = content.split("\r\n");
             for (int i = 1; i < lines.length - 2; i++) {
                 String lineTask = lines[i];
                 Task loadTask = Tasks.fromString(lineTask);
