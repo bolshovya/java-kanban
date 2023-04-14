@@ -38,6 +38,11 @@ public class InMemoryTaskManager implements TaskManager {
     };
 
     @Override
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(taskTreeSet);
+    }
+
+    @Override
     public List<Task> listOfAllTask() { // 2.1 Получение списка всех задач.
         return new ArrayList<>(taskStorage.values());
     }

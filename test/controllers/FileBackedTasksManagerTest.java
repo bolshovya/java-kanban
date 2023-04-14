@@ -53,7 +53,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void shouldReturnEmptyTaskManagerTest() {
-        manager.save();
 
         FileBackedTasksManager loaderManager = new FileBackedTasksManager();
         loaderManager.loadFromFile(new File("src/resources/data.csv"));
@@ -63,7 +62,6 @@ class FileBackedTasksManagerTest extends TaskManagerTest<FileBackedTasksManager>
 
     @Test
     void shouldReturnEmptyHistoryListTest() {
-        manager.save();
 
         FileBackedTasksManager loaderManager = new FileBackedTasksManager();
         loaderManager.loadFromFile(new File("src/resources/data.csv"));
