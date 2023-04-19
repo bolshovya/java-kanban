@@ -66,6 +66,8 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
 
         fileBackedTasksManager1.getHistory();
 
+        fileBackedTasksManager1.getPrioritizedTasks();
+
         FileBackedTasksManager fileBackedTasksManager2 = new FileBackedTasksManager();
         fileBackedTasksManager2.loadFromFile(new File(savePath));
 

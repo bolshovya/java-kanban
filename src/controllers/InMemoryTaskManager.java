@@ -101,7 +101,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void addTask(Task newTask) { // 2.4 Создание. Сам объект должен передаваться в качестве параметра.
         newTask.setId(idCount);
         taskStorage.put(idCount, newTask);
-        if (!checkForIntersect.test(newTask)) {
+        if (checkForIntersect.test(newTask)) {
             taskTreeSet.add(newTask);
         }
         idCount++;
@@ -119,15 +119,15 @@ public class InMemoryTaskManager implements TaskManager {
         newSubtask.setId(idCount);
         Integer epicId = newSubtask.getEpicId();
         subtaskStorage.put(idCount, newSubtask);
-        if (!checkForIntersect.test(newSubtask)) {
+        if (checkForIntersect.test(newSubtask)) {
             taskTreeSet.add(newSubtask);
         }
         idCount++;
         Epic epicBuffer = epicStorage.get(epicId);
         epicBuffer.setSubtaskIncludedInTheEpic(newSubtask);
         epicBuffer.updateEpicStatus();
-        epicBuffer.setEpicStartTime();
-        epicBuffer.setEpicEndTime();
+        epicBuffer.calculateEpicStartTime();
+        epicBuffer.calculateEpicEndTime();
         epicStorage.put(epicId, epicBuffer);
     }
 

@@ -18,17 +18,11 @@ public class HttpTaskManager extends FileBackedTasksManager {
 
 
     public HttpTaskManager(URI uri) throws IOException, InterruptedException {
-        /* конструктор HttpTaskManager должен будет вместо имени файла принимать URL к серверу KVServer.
-        Также HttpTaskManager создаёт KVTaskClient, из которого можно получить исходное состояние менеджера. Вам нужно
-        заменить вызовы сохранения состояния в файлах на вызов клиента.
-         */
         super();
         this.client = new KVTaskClient(uri);
         this.gson = new Gson();
 
     }
-
-    // в конце обновите статический метод getDefault() в утилитарном классе Managers, чтобы он возвращал HttpTaskManager.
 
 
     @Override
@@ -72,8 +66,6 @@ public class HttpTaskManager extends FileBackedTasksManager {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
-
     }
 
 }

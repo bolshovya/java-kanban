@@ -3,15 +3,12 @@ package server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import controllers.FileBackedTasksManager;
-import controllers.HttpTaskManager;
+
 import controllers.Managers;
 import controllers.TaskManager;
 import model.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -20,8 +17,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -36,23 +31,13 @@ public class HttpTaskServer {
         this.gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .serializeNulls()
-                //.registerTypeAdapter()
                 .create();
         this.httpServer = HttpServer.create(new InetSocketAddress("localhost",PORT), 0);
-        this.manager = Managers.getDefaultFileBackedTasksManager();
+        this.manager = Managers.getDefault();
         this.httpServer.createContext("/tasks", this::Handler);
         System.out.println("HTTP-сервер запущен на " + PORT + " порту.");
 
     }
-
-    /*
-    public static void main(String[] args) throws IOException {
-        HttpTaskServer server = new HttpTaskServer();
-        server.setUp();
-        server.start();
-    }
-
-     */
 
     public void Handler(HttpExchange exchange) {
         try {
@@ -244,158 +229,6 @@ public class HttpTaskServer {
                         manager.addEpic(addedEpic);
                         exchange.sendResponseHeaders(200, 0);
                     }
-
-
-                        /*
-                        if (Pattern.matches("^/tasks/task/$", path)) {  // сам что-то ковырял
-                            if (exchange.getRequestURI().getQuery().startsWith("id")) {
-                                String pathId = path.replaceFirst("/tasks/task/", "");
-                                int id = getTaskId(pathId);
-                                if (id != -1) {
-                                    String response = gson.toJson(manager.getTaskById(id));
-                                    System.out.println("вернули пользователя id " + id);
-                                    writeResponse(exchange, response, 200);
-                                    break;
-                                } else {
-                                    System.out.println("получен некорректный id " + pathId);
-                                    exchange.sendResponseHeaders(405, 0);
-                                    break;
-                                }
-                            } else {
-                                String response = gson.toJson(manager.listOfAllTask());
-                                writeResponse(exchange, response, 200);
-                                break;
-                            }
-                        }
-
-                         */
-
-
-
-                        /*
-                        if (Pattern.matches("^/tasks/task/\\d+$", path)) {   // пример с вебинара
-                            String pathId = path.replaceFirst("/tasks/task/", "");
-                            int id = getTaskId(pathId);
-                            if (id != -1) {
-                                String response = gson.toJson(manager.getTaskById(id));
-                                System.out.println("вернули пользователя id " + id);
-                                writeResponse(exchange, response, 200);
-                                break;
-                            } else {
-                                System.out.println("получен некорректный id " + pathId);
-                                exchange.sendResponseHeaders(405, 0);
-                                break;
-                            }
-                        }
-
-                        if (Pattern.matches("^/tasks/task/$", path)) {
-                            String response = gson.toJson(manager.listOfAllTask());
-                            writeResponse(exchange, response, 200);
-                            break;
-                        }
-
-                         */
-
-
-
-                        /*
-                        if (path.equals("/tasks/task/")) {
-                            if (exchange.getRequestURI().getQuery().startsWith("id")) {
-                                String response = gson.toJson(manager.getTaskById(getTaskId2(exchange)));
-                                writeResponse(exchange, response, 200);
-                            } else {
-                                String response = gson.toJson(new ArrayList<>(manager.listOfAllTask()));
-                                writeResponse(exchange, response, 200);
-                            }
-                        }
-
-                         */
-
-
-                        /*
-                        if (path.equals("/tasks/task/") && exchange.getRequestURI().getQuery().startsWith("id")) {
-                            String response = gson.toJson(manager.getTaskById(getTaskId2(exchange)));
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/task/") && exchange.getRequestURI().getQuery().isBlank()) {
-                            String response = gson.toJson(manager.listOfAllTask());
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/subtask/epic/") && exchange.getRequestURI().getQuery().startsWith("id")) {
-                            String response = gson.toJson(manager.getListOfAllSubtaskEpic(manager.getEpicById(getTaskId2(exchange))));
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/subtask/") && exchange.getRequestURI().getQuery().startsWith("id")) {
-                            String response = gson.toJson(manager.getSubtaskById(getTaskId2(exchange)));
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/subtask/")) {
-                            String response = gson.toJson(manager.listOfAllSubtask());
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/epic/") && exchange.getRequestURI().getQuery().startsWith("id")) {
-                            String response = gson.toJson(manager.getEpicById(getTaskId2(exchange)));
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/epic/")) {
-                            String response = gson.toJson(manager.listOfAllEpic());
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/history/")) {
-                            String response = gson.toJson(manager.listOfAllEpic());
-                            writeResponse(exchange, response, 200);
-                        }
-                        if (path.equals("/tasks/")) {
-                            String response = gson.toJson(manager.getPrioritizedTasks());
-                            writeResponse(exchange, response, 200);
-                        } else {
-                            String response = "Неверный запрос, ожидался GET";
-                            writeResponse(exchange, response, 404);
-                        }
-                        break;
-
-                         */
-
-
-                    /*
-                    case "POST":
-                        if (path.equals("/tasks/task/")) {
-                            InputStream inputStream = exchange.getRequestBody();
-                            String body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
-                            Task addedTask = gson.fromJson(body, Task.class);
-                            manager.addTask(addedTask);
-                            exchange.sendResponseHeaders(200, 0);
-                        } else if (path.equals("/tasks/subtask/")) {
-                            InputStream inputStream = exchange.getRequestBody();
-                            String body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
-                            Subtask addedSubtask = gson.fromJson(body, Subtask.class);
-                            manager.addTask(addedSubtask);
-                            exchange.sendResponseHeaders(200, 0);
-                        } else if (path.equals("/tasks/epic/")) {
-                            InputStream inputStream = exchange.getRequestBody();
-                            String body = new String(inputStream.readAllBytes(), DEFAULT_CHARSET);
-                            Epic addedEpic = gson.fromJson(body, Epic.class);
-                            manager.addTask(addedEpic);
-                            exchange.sendResponseHeaders(200, 0);
-                        } else {
-                            String response = "Неверный запрос, ожидался POST";
-                            writeResponse(exchange, response, 404);
-                        }
-                        break;
-                    case "DELETE":
-                        if (path.equals("/tasks/task/") && exchange.getRequestURI().getQuery().startsWith("id")) {
-                            int deletedId = getTaskId2(exchange);
-                            manager.removeTask(deletedId);
-                        } else if (path.equals("/tasks/subtask/") && exchange.getRequestURI().getQuery().startsWith("id")) {
-                            int deletedId = getTaskId2(exchange);
-                            manager.removeSubtask(deletedId);
-                        } else if (path.equals("/tasks/epic/") && exchange.getRequestURI().getQuery().startsWith("id")) {
-                            int deletedId = getTaskId2(exchange);
-                            manager.removeEpic(deletedId);
-                        }
-                        break;
-
-                     */
                 break;
             }
         } catch (Exception e) {
@@ -439,55 +272,6 @@ public class HttpTaskServer {
     public void stop() {
         httpServer.stop(0);
         System.out.println("Остановили сервер на порту " + PORT);
-    }
-
-    public void setUp() {
-        Task task1 = new Task("Купить продукты", "Съездить в Окей", TaskStatus.NEW,
-                LocalDateTime.of(2023, 3, 26, 0, 56), Duration.ofMinutes(20));
-        manager.addTask(task1);
-
-        Task task2 = new Task("Купить мебель", "Съездить в Икею", TaskStatus.NEW,
-                LocalDateTime.of(2023, 3, 26, 0, 58), Duration.ofMinutes(20));
-        manager.addTask(task2);
-
-        Epic epic1 = new Epic("Выполнить проектную работу Практикума"
-                , "Выполнить проектную работу согласно ТЗ");
-        manager.addEpic(epic1);
-
-        Subtask subtask11 = new Subtask("Успешно пройти теоретический блок спринта №3"
-                , "Изучить всю теорию и выполнить успешно все задачи в тренажере", TaskStatus.NEW,
-                LocalDateTime.of(2023, 3, 26, 1, 1), Duration.ofMinutes(20), epic1.getId());
-        manager.addSubtask(subtask11);
-
-        Subtask subtask12 = new Subtask("Выполнить задачу по Cody Style"
-                , "Выполнить задачу самому и провести ревью сокурсника", TaskStatus.NEW,
-                LocalDateTime.of(2023, 3, 26, 1, 2), Duration.ofMinutes(20), epic1.getId());
-        manager.addSubtask(subtask12);
-
-        Epic epic2 = new Epic("Изучить курс на Ютубе JAVA", "Курс Алишева");
-        manager.addEpic(epic2);
-
-        Subtask subtask21 = new Subtask("Просмотреть все ролики из плей-листа", "Ютуб", TaskStatus.NEW,
-                LocalDateTime.of(2023, 3, 26, 1, 3), Duration.ofMinutes(20), epic2.getId());
-        manager.addSubtask(subtask21);
-
-
-        manager.getTaskById(task1.getId()); // 1
-        manager.getTaskById(task2.getId()); // 2
-        manager.getTaskById(task1.getId()); // 1
-        manager.getTaskById(task2.getId()); // 2
-        manager.getSubtaskById(subtask12.getId()); // 5
-        manager.getSubtaskById(subtask12.getId()); // 5
-        manager.getSubtaskById(subtask11.getId()); // 4
-        manager.getSubtaskById(subtask21.getId()); // 7
-        manager.getEpicById(epic1.getId()); // 3
-        manager.getEpicById(epic2.getId()); // 6
-        manager.getTaskById(task1.getId()); // 1
-        manager.getTaskById(task2.getId()); // 2
-        manager.getTaskById(task1.getId()); // 1
-
-        manager.getHistory();
-
     }
 
 }

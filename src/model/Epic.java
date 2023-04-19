@@ -2,15 +2,15 @@ package model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Stream;
+
 
 public class Epic extends Task {
-    private ArrayList <Subtask> subtaskInEpic = new ArrayList<>();
 
-    LocalDateTime startTime;
-    LocalDateTime endTime;
+    private transient ArrayList <Subtask> subtaskInEpic = new ArrayList<>();
+
+    // LocalDateTime startTime;
+    // LocalDateTime endTime;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -24,8 +24,16 @@ public class Epic extends Task {
         super(name, description, id, status, startTime, duration, endTime);
     }
 
+    public Epic(String name, String description, int id) {
+        super(name, description);
+        this.id = id;
+        this.startTime = LocalDateTime.MAX;
+        this.duration = Duration.ZERO;
+        this.endTime = startTime.plus(duration);
+    }
 
-    public void setEpicDuration() {
+
+    public void calculateEpicDuration() {
         if (subtaskInEpic.isEmpty()) {
             this.duration = Duration.ZERO;
         }
@@ -40,7 +48,7 @@ public class Epic extends Task {
         return this.duration;
     }
 
-    public void setEpicStartTime() {
+    public void calculateEpicStartTime() {
         if (subtaskInEpic.isEmpty()) {
             this.startTime = LocalDateTime.of(2001,1,1,1,1);
         } else {
@@ -59,7 +67,7 @@ public class Epic extends Task {
     }
 
 
-    public void setEpicEndTime() {
+    public void calculateEpicEndTime() {
         if (subtaskInEpic.isEmpty()) {
             this.endTime = startTime;
         } else {
@@ -133,7 +141,6 @@ public class Epic extends Task {
         } catch (NullPointerException e) {
             return new ArrayList<>();
         }
-
     }
 
     public void setSubtaskList(List<Subtask> list) {
