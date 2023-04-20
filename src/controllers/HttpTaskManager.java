@@ -17,11 +17,10 @@ public class HttpTaskManager extends FileBackedTasksManager {
     KVTaskClient client;
 
 
-    public HttpTaskManager(URI uri) throws IOException, InterruptedException {
+    public HttpTaskManager(String url) throws IOException, InterruptedException {
         super();
-        this.client = new KVTaskClient(uri);
+        this.client = new KVTaskClient(url);
         this.gson = new Gson();
-
     }
 
 
@@ -41,7 +40,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
         }
     }
 
-    public void loadFromFile() {
+    public void load() {
         try {
             String tasksJson = client.load("tasks");
             Type taskType = new TypeToken<ArrayList<Task>>() {}.getType();

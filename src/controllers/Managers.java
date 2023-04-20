@@ -1,10 +1,16 @@
 package controllers;
 
+import java.io.IOException;
+
 public class Managers {
 
 
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();
+    }
+
+    public static TaskManager getHttpDefault() throws IOException, InterruptedException {
+        return new HttpTaskManager("http://localhost:8078");
     }
 
 

@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class HttpTaskServerTest {
 
     private HttpTaskServer server;
+    private KVServer kvServer;
     private Gson gson = new Gson();
     private Task task1;
     private Task task2;
@@ -28,9 +29,12 @@ class HttpTaskServerTest {
     private Epic epic2;
 
 
-    @BeforeEach
-    void init() throws IOException {
 
+
+    @BeforeEach
+    void init() throws IOException, InterruptedException {
+        kvServer = new KVServer();
+        kvServer.start();
         server = new HttpTaskServer();
         server.start();
     }
@@ -39,9 +43,9 @@ class HttpTaskServerTest {
 
     @AfterEach
     void tearDown() {
+        kvServer.stop();
         server.stop();
     }
-
 
 
     @Test
