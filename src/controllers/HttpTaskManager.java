@@ -35,7 +35,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
 
             String epicJson = gson.toJson(listOfAllEpic());
             client.put("epic", epicJson);
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -62,7 +62,7 @@ public class HttpTaskManager extends FileBackedTasksManager {
             for (Epic epic : addedEpics) {
                 taskStorage.put(epic.getId(), epic);
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -168,7 +168,7 @@ public class HttpTaskServer {
                     if (Pattern.matches("^/tasks/task/$", path)) {
                         if (query.isEmpty()) {
                             manager.clearTaskList();
-                            exchange.sendResponseHeaders(200, 0);
+                            exchange.sendResponseHeaders(204, 0);
                             break;
                         } else {
                             String queryId = query.get().substring(3);
@@ -176,7 +176,7 @@ public class HttpTaskServer {
                             if (id != -1) {
                                 manager.removeTask(id);
                                 System.out.println("удалили задачу id " + id);
-                                exchange.sendResponseHeaders(200, 0);
+                                exchange.sendResponseHeaders(204, 0);
                                 break;
                             } else {
                                 System.out.println("получен некорректный id " + id);
@@ -189,7 +189,7 @@ public class HttpTaskServer {
                     if (Pattern.matches("^/tasks/subtask/$", path)) {
                         if (query.isEmpty()) {
                             manager.clearSubtaskList();
-                            exchange.sendResponseHeaders(200, 0);
+                            exchange.sendResponseHeaders(204, 0);
                             break;
                         } else {
                             String queryId = query.get().substring(3);
@@ -197,7 +197,7 @@ public class HttpTaskServer {
                             if (id != -1) {
                                 manager.removeSubtask(id);
                                 System.out.println("удалили подзадачу id " + id);
-                                exchange.sendResponseHeaders(200, 0);
+                                exchange.sendResponseHeaders(204, 0);
                                 break;
                             } else {
                                 System.out.println("получен некорректный id " + id);

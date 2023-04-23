@@ -1,5 +1,7 @@
 package server;
 
+import exceptions.ManagerSaveException;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -11,51 +13,63 @@ public class KVTaskClient {
     private String apiToken;
 
 
-    public KVTaskClient(String url) throws IOException, InterruptedException {
+    public KVTaskClient(String url) {
         // Конструктор принимает URL к серверу хранилища и регистрируется. При регистрации выдается токен (API_TOKEN)
         // который нужен при работе  сервером
-        HttpClient client = HttpClient.newHttpClient();
-        URI uri = URI.create(url + "/register");   // "http://localhost:8078/register"
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .GET()
-                .build();
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            URI uri = URI.create(url + "/register");   // "http://localhost:8078/register"
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new ManagerSaveException("Error");
+            }
+            this.apiToken = response.body();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        this.apiToken = response.body();
     }
 
-    public void put(String key, String json) throws IOException, InterruptedException {
+    public void put(String key, String json) {
         // должен сохранять состояние менеджера задач через запрос: POST/save/<ключ>?API_TOKEN=
-        URI uri = URI.create("http://localhost:8078/save/" + key + "?API_TOKEN=" + apiToken);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .POST(HttpRequest.BodyPublishers.ofString(json))
-                .build();
-        // HttpResponse.BodyHandler<String> response = HttpResponse.BodyHandlers.ofString();
-        // client.send(request, response);
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        try {
+            URI uri = URI.create("http://localhost:8078/save/" + key + "?API_TOKEN=" + apiToken);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new ManagerSaveException("Неверный запрос: " + response.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    public String load(String key) throws IOException, InterruptedException {
+    public String load(String key) {
         // должен возвращать состояние менеджера задач через запрос: GET/load/<ключ>?API_TOKEN=
-        URI uri = URI.create("http://localhost:8078/load/" + key + "?API_TOKEN=" + apiToken);
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(uri)
-                .GET()
-                .build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
+        try {
+            URI uri = URI.create("http://localhost:8078/load/" + key + "?API_TOKEN=" + apiToken);
+            HttpClient client = HttpClient.newHttpClient();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(uri)
+                    .GET()
+                    .build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                throw new ManagerSaveException("Неверный запрос: " + response.statusCode());
+            }
+            return response.body();
+        } catch (IOException | InterruptedException e) {
+            throw new ManagerSaveException();
+        }
     }
-
-
-    /*
-    Далее проверьте код клиента в main. Для этого запустите KVServer, создайте экземпляр KVTaskClient.
-    Затем сохраните значение под разными ключами и проверьте, что при запросе возвращаются нужные данные. Удостоверьтесь,
-    что если изменить знание, то при повторном вызове вернётся уже не старое, а новое.
-     */
 
 
 }
