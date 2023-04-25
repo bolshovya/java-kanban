@@ -7,10 +7,8 @@ import java.util.*;
 
 public class Epic extends Task {
 
-    private transient ArrayList <Subtask> subtaskInEpic = new ArrayList<>();
+    private final transient List <Subtask> subtaskInEpic = new ArrayList<>();
 
-    // LocalDateTime startTime;
-    // LocalDateTime endTime;
 
     public Epic(String name, String description) {
         super(name, description);
@@ -135,16 +133,11 @@ public class Epic extends Task {
 
 
     public List<Subtask> getSubtaskList() {
-        try {
-            List<Subtask> list = subtaskInEpic;
-            return list;
-        } catch (NullPointerException e) {
-            return new ArrayList<>();
-        }
+        return new ArrayList<>(subtaskInEpic);
     }
 
     public void setSubtaskList(List<Subtask> list) {
-        this.subtaskInEpic = (ArrayList<Subtask>) list;
+        subtaskInEpic.addAll(list);
     }
 
     public void clearSubtaskList() {
