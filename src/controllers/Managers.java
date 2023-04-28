@@ -2,9 +2,10 @@ package controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import utilities.LocalDateAdapter;
+import utilities.*;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Managers {
@@ -29,9 +30,8 @@ public class Managers {
 
     public static Gson getGson() {
         return new GsonBuilder()
-                .setPrettyPrinting()
-                .serializeNulls()
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateAdapter())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+                .registerTypeAdapter(Duration.class, new DurationAdapter())
                 .create();
     }
 

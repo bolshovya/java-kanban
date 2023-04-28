@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="junit">
+    <CLASSES />
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$USER_HOME$/Downloads/m1-t23-junit-master/m1-t23-junit-master/src" />
+      <root url="file://$USER_HOME$/Downloads/m1-t23-junit-master/m1-t23-junit-master/test" />
+    </SOURCES>
+  </library>
+</component>

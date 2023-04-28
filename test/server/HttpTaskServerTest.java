@@ -20,12 +20,11 @@ class HttpTaskServerTest {
 
     private HttpTaskServer server;
     private KVServer kvServer;
-    private Gson gson = new Gson();
+    private Gson gson;
     private Task task1;
     private Task task2;
     private Subtask subtask11;
     private Subtask subtask12;
-    private Subtask subtask21;
     private Epic epic1;
     private Epic epic2;
 
@@ -34,6 +33,7 @@ class HttpTaskServerTest {
 
     @BeforeEach
     void init() throws IOException, InterruptedException {
+        gson = Managers.getGson();
         kvServer = new KVServer();
         kvServer.start();
         server = new HttpTaskServer();
@@ -340,9 +340,7 @@ class HttpTaskServerTest {
                 , "Изучить всю теорию и выполнить успешно все задачи в тренажере", TaskStatus.NEW,
                 LocalDateTime.of(2023, 3, 26, 1, 1), Duration.ofMinutes(20), epic1.getId());
 
-        Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .create();
+        // Gson gson = Managers.getGson();
         URI uri = URI.create("http://localhost:8080/tasks/subtask/");
         String json = gson.toJson(subtaskToServer);
         HttpRequest.BodyPublisher body = HttpRequest.BodyPublishers.ofString(json);
@@ -365,9 +363,7 @@ class HttpTaskServerTest {
         Epic epicToServer = new Epic("Epic test name"
                 , "Epic test discription", 77);
 
-        Gson gson = new GsonBuilder()
-                .serializeNulls()
-                .create();
+        Gson gson = Managers.getGson();
         URI uri = URI.create("http://localhost:8080/tasks/epic/");
         String json = gson.toJson(epicToServer);
         HttpRequest.BodyPublisher body = HttpRequest.BodyPublishers.ofString(json);

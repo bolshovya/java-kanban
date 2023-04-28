@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Epic extends Task {
 
-    private final transient List <Subtask> subtaskInEpic = new ArrayList<>();
+    private final List <Subtask> subtaskInEpic = new ArrayList<>();
 
 
     public Epic(String name, String description) {

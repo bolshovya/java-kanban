@@ -6,9 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import model.*;
 import server.KVTaskClient;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
-import java.net.URI;
 import java.util.*;
 
 
@@ -17,10 +15,10 @@ public class HttpTaskManager extends FileBackedTasksManager {
     KVTaskClient client;
 
 
-    public HttpTaskManager(String url) throws IOException, InterruptedException {
+    public HttpTaskManager(String url) {
         super();
         this.client = new KVTaskClient(url);
-        this.gson = new Gson();
+        this.gson = Managers.getGson();
     }
 
 
